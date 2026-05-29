@@ -70,7 +70,7 @@ Ejemplos:
 # 🛠️ Tecnologías utilizadas
 
 - Python
-- discord.py
+- discord
 - SQLite
 
 ---

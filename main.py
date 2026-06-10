@@ -114,11 +114,35 @@ async def hola(ctx):
 @bot.command()
 async def reto(ctx):
     retos = [
-        "♻️ Recicla algo hoy",
-        "💧 Ahorra agua durante el día",
-        "🚶 Camina en vez de usar carro",
-        "🌱 Planta algo pequeño",
-        "🛍️ Evita plástico de un solo uso"
+    "♻️ Recicla algo hoy",
+    "💧 Ahorra agua durante el día",
+    "🚶 Camina en vez de usar carro",
+    "🌱 Planta algo pequeño o cuida de una planta",
+    "🛍️ Evita plástico de un solo uso",
+
+    "🔌 Desconecta un dispositivo que no estés usando",
+    "🌞 Aprovecha la luz natural durante una hora",
+    "🚿 Intenta reducir el tiempo de tu ducha",
+    "📚 Aprende un dato nuevo sobre el medio ambiente",
+    "🥤 Usa una botella reutilizable hoy",
+
+    "🍎 Evita desperdiciar comida a la hora de cenar",
+    "🚲 Usa bicicleta si tienes la oportunidad",
+    "🌳 Observa y aprende sobre un árbol cercano",
+    "🗑️ Recoge un residuo que encuentres en el suelo",
+    "📦 Reutiliza una caja o recipiente",
+
+    "💡 Apaga las luces de una habitación vacía",
+    "📱 Reduce tu tiempo de pantalla en 15 minutos",
+    "🌍 Comparte un consejo ecológico con alguien",
+    "🍃 Pasa 10 minutos al aire libre",
+    "🧹 Limpia y organiza una pequeña zona de tu espacio",
+
+    "🚰 Bebe agua en lugar de una bebida envasada",
+    "🛒 Evita una compra innecesaria hoy",
+    "📖 Lee un artículo corto sobre sostenibilidad",
+    "🎒 Reutiliza una bolsa en vez de usar una nueva",
+    "🌿 Identifica una planta que no conocías"
     ]
 
     import random

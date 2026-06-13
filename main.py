@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import sqlite3
-
+import random
 # -----------------------------
 # CONFIGURACIÓN DEL BOT
 # -----------------------------
@@ -60,7 +60,7 @@ def add_xp(user_id, amount):
 
     next_level_xp = level * 100
 
-    if xp >= next_level_xp:
+    while xp >= next_level_xp:
         level += 1
 
     cursor.execute("""
@@ -108,10 +108,17 @@ async def on_ready():
 
 @bot.command()
 async def hola(ctx):
-    await ctx.send("🌿 Hola, soy Leafy")
+    mensaje = "🌿 Hola, soy Leafy tu ayudante ecológico"
 
+    logro = add_achievement(ctx.author.id, " 🌿 Primer Contacto")
+
+    if logro:
+        mensaje += "\n🏆 Logro desbloqueado: 🌿 Primer Contacto"
+
+    await ctx.send(mensaje)
 
 @bot.command()
+@commands.cooldown(1, 60, commands.BucketType.user)
 async def reto(ctx):
     retos = [
     "♻️ Recicla algo hoy",
@@ -145,21 +152,29 @@ async def reto(ctx):
     "🌿 Identifica una planta que no conocías"
     ]
 
-    import random
+    
 
     reto_random = random.choice(retos)
 
     add_xp(ctx.author.id, 20)
 
-    logro = add_achievement(ctx.author.id, "🌱 Primer Reto")
+    logro = add_achievement(ctx.author.id, " 🌱 Primer Reto")
 
-    mensaje = f"{ctx.author.mention}\nTu reto de hoy:\n\n{reto_random}\n\n+20 XP"
+    mensaje = f"{ctx.author.mention}\nTu reto de hoy:\n{reto_random}\n+20 XP"
 
     if logro:
         mensaje += "\n🏆 Logro desbloqueado: 🌱 Primer Reto"
 
     await ctx.send(mensaje)
 
+@reto.error
+async def reto_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        segundos = round(error.retry_after)
+
+        await ctx.send(
+            f"🍃 Debes esperar {segundos} segundos antes de pedir otro reto."
+        )
 
 @bot.command()
 async def perfil(ctx):
@@ -167,7 +182,7 @@ async def perfil(ctx):
 
     xp = user[1]
     level = user[2]
-    achievements = user[3]
+    achievements = user[3].rstrip(",")
 
     if achievements == "":
         achievements = "Ninguno"
@@ -184,6 +199,24 @@ async def perfil(ctx):
 
     await ctx.send(embed=embed)
 
+@bot.command()
+async def flip_coin(ctx):
+    flip_coin = random.randint(0, 1)
+    mensaje = "¡vamos a lanzar una moneda! si sale cara ganas y si sale sello pierdes"
+    
+    if flip_coin == 0:
+        mensaje += "\nCara ganaste"
+
+        logro = add_achievement(ctx.author.id, " Ganador🏆")
+
+        if logro:
+            mensaje += "\n🏆 Logro desbloqueado: Ganador🏆"
+
+
+    else:
+        mensaje += "\nSello perdiste"
+
+    await ctx.send(mensaje)
 
 @bot.command()
 async def ayudar(ctx):
@@ -195,6 +228,7 @@ async def ayudar(ctx):
     embed.add_field(name="!hola", value="Saluda al bot", inline=False)
     embed.add_field(name="!reto", value="Obtén un reto ecológico", inline=False)
     embed.add_field(name="!perfil", value="Muestra tu perfil", inline=False)
+    embed.add_field(name="!flip_coin", value="Lanza una moneda", inline=False)
 
     await ctx.send(embed=embed)
 

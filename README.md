@@ -42,6 +42,7 @@ Ejemplos:
 
 | !ayudar: Muestra la lista de comandos disponibles |
 
+| !flip_coin: lanza una moneda |
 
 
 # Tecnologías utilizadas
